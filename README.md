@@ -111,6 +111,8 @@ Due to the vast differences between each game and software, we have provided the
 4. [Dealer's Life 2](docs/envs/dealers.md)
 5. [Software](docs/envs/software.md)
 
+For the GTA SA recording workflow, see [research/gta_sa_lumine_logger_plan.md](research/gta_sa_lumine_logger_plan.md).
+
 <div align="center">
 <img src="./docs/images/games_wheel.png" height="365" /> <img src="./docs/images/applications_wheel.png" height="365" />
 </div>

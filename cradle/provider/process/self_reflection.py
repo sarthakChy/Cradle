@@ -14,6 +14,27 @@ config = Config()
 logger = Logger()
 
 
+def _sample_action_frames(video_frames, max_images):
+    if not video_frames:
+        return []
+
+    if len(video_frames) <= max_images + 1:
+        return [frame[1] for frame in video_frames[1:]]
+
+    if max_images <= 1:
+        return [video_frames[-1][1]]
+
+    last_index = len(video_frames) - 1
+    sampled_frames = []
+
+    for i in range(max_images):
+        index = 1 + round(i * (last_index - 1) / (max_images - 1))
+        index = max(1, min(index, last_index))
+        sampled_frames.append(video_frames[index][1])
+
+    return sampled_frames
+
+
 class SelfReflectionPreprocessProvider(BaseProvider):
 
     def __init__(self, *args,
@@ -75,12 +96,7 @@ class SelfReflectionPreprocessProvider(BaseProvider):
             action_frames = []
             video_frames = self.video_recorder.get_frames(start_frame_id, end_frame_id)
 
-            if len(video_frames) <= config.max_images_in_self_reflection * config.duplicate_frames + 1:
-                action_frames = [frame[1] for frame in video_frames[1::config.duplicate_frames]]
-            else:
-                for i in range(config.max_images_in_self_reflection):
-                    step = len(video_frames) // config.max_images_in_self_reflection * i + 1
-                    action_frames.append(video_frames[step][1])
+            action_frames = _sample_action_frames(video_frames, config.max_images_in_self_reflection)
 
             image_introduction = [
                 {
@@ -152,12 +168,7 @@ class RDR2SelfReflectionPreprocessProvider(BaseProvider):
             action_frames = []
             video_frames = self.video_recorder.get_frames(start_frame_id, end_frame_id)
 
-            if len(video_frames) <= config.max_images_in_self_reflection * config.duplicate_frames + 1:
-                action_frames = [frame[1] for frame in video_frames[1::config.duplicate_frames]]
-            else:
-                for i in range(config.max_images_in_self_reflection):
-                    step = len(video_frames) // config.max_images_in_self_reflection * i + 1
-                    action_frames.append(video_frames[step][1])
+            action_frames = _sample_action_frames(video_frames, config.max_images_in_self_reflection)
 
             image_introduction = [
                 {

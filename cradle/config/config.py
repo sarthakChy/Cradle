@@ -1,6 +1,7 @@
 from collections import namedtuple
 import os
 import time
+from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -8,6 +9,7 @@ from colorama import Fore, Style, init as colours_on
 
 import cradle
 from cradle import constants
+from cradle.gameio import gui_utils
 from cradle.log.logger import Logger
 from cradle.utils.json_utils import load_json
 from cradle.utils import Singleton
@@ -103,9 +105,7 @@ class Config(metaclass=Singleton):
         self.parallel_request_gather_information = True
 
         # Video
-        self.video_fps = 8
-        self.duplicate_frames = 4
-        self.frames_per_slice = 1000
+        self.video_fps = 30
 
         # Self-reflection image count
         self.max_images_in_self_reflection = 4
@@ -210,7 +210,7 @@ class Config(metaclass=Singleton):
         }
 
         # Full screen resolution for normalizing mouse movement
-        self.screen_resolution = cradle.gameio.gui_utils.get_screen_size()
+        self.screen_resolution = gui_utils.get_screen_size()
         self.mouse_move_factor = self.screen_resolution[0] / self.base_resolution[0]
 
         self._check_ide_window_info()
@@ -288,16 +288,19 @@ class Config(metaclass=Singleton):
         """Setup directories needed for one system run."""
         self.root_dir = get_project_root()
 
-        self.work_dir = assemble_project_path(os.path.join(self.work_dir, str(time.time())))
+        now = datetime.now()
+        run_date = now.strftime("%Y-%m-%d")
+        time_start = now.strftime("time_start_%H-%M-%S-%f")
+        self.work_dir = assemble_project_path(os.path.join(self.work_dir, run_date, time_start))
         Path(self.work_dir).mkdir(parents=True, exist_ok=True)
 
         Logger.work_dir = self.work_dir
 
 
     def _check_ide_window_info(self):
-        named_windows = cradle.gameio.gui_utils.get_named_windows(self.ide_name)
+        named_windows = gui_utils.get_named_windows(self.ide_name)
         if len(named_windows) <= 0:
-            ide_window = cradle.gameio.gui_utils.get_active_window()
+            ide_window = gui_utils.get_active_window()
             self.ide_name = ide_window.title
 
 
@@ -311,7 +314,7 @@ class Config(metaclass=Singleton):
         env_window.height = self.DEFAULT_ENV_RESOLUTION[1]
 
         # Get window candidates by name alternatives
-        named_windows = cradle.gameio.gui_utils.get_named_windows_fallback(self.env_name, self.win_name_pattern)
+        named_windows = gui_utils.get_named_windows_fallback(self.env_name, self.win_name_pattern)
 
         if len(named_windows) == 0:
             self._config_warn(f'-----------------------------------------------------------------')
@@ -319,7 +322,9 @@ class Config(metaclass=Singleton):
             self._config_warn(f'-----------------------------------------------------------------')
         elif len(named_windows) > 1:
             try:
-                env_window = cradle.gameio.lifecycle.ui_control.select_window(named_windows)
+                from cradle.gameio.lifecycle.ui_control import select_window
+
+                env_window = select_window(named_windows)
             except Exception as e:
                 self._config_warn(f'-----------------------------------------------------------------')
                 self._config_warn(f'Issue in non-unique env window: {self.env_name}|{self.win_name_pattern}.')
@@ -330,7 +335,7 @@ class Config(metaclass=Singleton):
 
         skip_window_resize = kget(self.env_config, 'skip_window_resize', default=False)
         if not skip_window_resize:
-            cradle.gameio.gui_utils.check_window_conditions(env_window)
+            gui_utils.check_window_conditions(env_window)
 
         self.env_window = env_window
         self.env_resolution = (env_window.width, env_window.height)

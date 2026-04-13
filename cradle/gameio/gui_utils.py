@@ -6,10 +6,12 @@ import re
 import pyautogui
 
 from cradle.utils.string_utils import strip_anchor_chars
-from cradle.config import Config
 
 
-config = Config()
+def _get_config():
+    from cradle.config import Config
+
+    return Config()
 
 
 def _isMac():
@@ -320,6 +322,7 @@ class TargetWindow():
 
 
 def mouse_button_down(button):
+    config = _get_config()
     if _isWin() and config.is_game is True:
         ahk.click(button=button, direction='D')
     else:
@@ -327,6 +330,7 @@ def mouse_button_down(button):
 
 
 def mouse_button_up(button):
+    config = _get_config()
     if _isWin() and config.is_game is True:
         ahk.click(button=button, direction='U')
     else:
@@ -334,6 +338,7 @@ def mouse_button_up(button):
 
 
 def mouse_click(click_count, button, relative=False):
+    config = _get_config()
     if _isWin() and config.is_game is True:
         ahk.click(click_count=click_count, button=button, relative=relative)
     else:
@@ -383,6 +388,7 @@ def mouse_wheel_scroll(amount):
 
 
 def get_mouse_location(absolute = False):
+    config = _get_config()
     if _isWin() and config.is_game is True:
         return ahk.get_mouse_position()
     else:
@@ -420,6 +426,7 @@ def get_screen_size():
 
 
 def check_window_conditions(env_window: TargetWindow):
+    config = _get_config()
     # Check if pre-resize is necessary
     if not config._min_resolution_check(env_window) or not config._aspect_ration_check(env_window):
         env_window = env_window.resizeTo(config.DEFAULT_ENV_RESOLUTION[0], config.DEFAULT_ENV_RESOLUTION[1])
