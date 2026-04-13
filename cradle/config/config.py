@@ -328,7 +328,9 @@ class Config(metaclass=Singleton):
         else:
             env_window = named_windows[0]
 
-        cradle.gameio.gui_utils.check_window_conditions(env_window)
+        skip_window_resize = kget(self.env_config, 'skip_window_resize', default=False)
+        if not skip_window_resize:
+            cradle.gameio.gui_utils.check_window_conditions(env_window)
 
         self.env_window = env_window
         self.env_resolution = (env_window.width, env_window.height)

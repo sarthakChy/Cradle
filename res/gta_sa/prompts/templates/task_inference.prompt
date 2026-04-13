@@ -1,0 +1,18 @@
+Assume you are a helpful assistant for GTA San Andreas.
+Summarize the recent screenshots and the current task for future decision-making.
+Return a single valid JSON object and nothing else.
+
+Current task:
+<$task_description$>
+
+<$image_introduction$>
+
+Use exactly these keys:
+{
+  "info_summary": "...",
+  "entities_and_behaviors": "..."
+}
+
+Rules:
+1. Write a concise story-like summary of what is happening.
+2. List the important entities and behaviors in plain language.

@@ -1,0 +1,36 @@
+Assume you are a helpful assistant for GTA San Andreas.
+Examine the current screenshot and the current task.
+Return a single valid JSON object and nothing else.
+
+Default key highlights:
+- Move: W A S D
+- Sprint: Shift
+- Jump: Space
+- Enter vehicle: F / Enter
+- Shoot: Left Click
+- Aim: Right Click
+- Camera: Mouse
+
+Current task:
+<$task_description$>
+
+<$image_introduction$>
+
+Use exactly these keys:
+{
+  "target_object_name": "null",
+  "reasoning_of_object": "...",
+  "description": "...",
+  "screen_classification": "General game interface without any menu",
+  "reasoning_of_screen": "...",
+  "movement": "No",
+  "noun_and_verb": "1 noun 1 verb",
+  "task_horizon": 0,
+  "reasoning_of_task": "..."
+}
+
+Rules:
+1. Keep target_object_name short. Use "null" if no object is needed.
+2. screen_classification must be one of: Inventory, Radial menu, Satchel, Map, Trade, Pause, General game interface without any menu.
+3. movement must be Yes or No.
+4. task_horizon must be 1 for long-horizon and 0 for short-horizon.

@@ -1,4 +1,5 @@
 from cradle.provider.llm.openai import OpenAIProvider
+from cradle.provider.llm.ollama import OllamaProvider
 from cradle.provider.llm.restful_claude import RestfulClaudeProvider
 from cradle.utils import Singleton
 
@@ -18,6 +19,10 @@ class LLMFactory(metaclass=Singleton):
 
         if "openai" in key:
             llm_provider = OpenAIProvider()
+            llm_provider.init_provider(llm_provider_config_path)
+            embed_provider = llm_provider
+        elif "ollama" in key:
+            llm_provider = OllamaProvider()
             llm_provider.init_provider(llm_provider_config_path)
             embed_provider = llm_provider
         elif "claude" in key:

@@ -115,6 +115,21 @@ def _is_line_key_candidate(line: str) -> Tuple[bool, Optional[str]]:
 ### Parses the semi-formatted text from model response
 def parse_semi_formatted_text(text):
 
+    stripped_text = text.strip()
+    if stripped_text.startswith('{') and stripped_text.endswith('}'):
+        try:
+            return parse_semi_formatted_json(stripped_text)
+        except Exception:
+            pass
+
+    json_start = stripped_text.find('{')
+    json_end = stripped_text.rfind('}')
+    if json_start != -1 and json_end != -1 and json_end > json_start:
+        try:
+            return parse_semi_formatted_json(stripped_text[json_start:json_end + 1])
+        except Exception:
+            pass
+
     lines = text.split('\n')
 
     lines = [line.rstrip() for line in lines if line.rstrip()]

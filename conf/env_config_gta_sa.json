@@ -1,0 +1,100 @@
+{
+    "env_name": "GTA: San Andreas",
+    "win_name_pattern": "GTA: San Andreas|Grand Theft Auto: San Andreas|GTA San Andreas",
+    "skip_window_resize": true,
+    "sub_path": "gta_sa",
+    "env_short_name": "gta_sa",
+    "is_game": true,
+    "skill_registry_name": "cradle.environment.gta_sa.skill_registry.GtaSaSkillRegistry",
+    "ui_control_name": "cradle.environment.gta_sa.ui_control.GtaSaUIControl",
+    "task_description_list": [
+        {
+            "id": 1,
+            "task_description": "Launch into GTA San Andreas, take control of the character, and confirm the agent can move and interact with the game.",
+            "sub_task_description_list": []
+        }
+    ],
+    "skill_configs": {
+        "skill_mode": "Basic",
+        "skill_names_basic": [
+            "move_mouse_to_position",
+            "click_at_position",
+            "double_click_at_position",
+            "mouse_drag",
+            "mouse_scroll_down",
+            "mouse_scroll_up",
+            "press_key",
+            "hold_key",
+            "release_key",
+            "press_keys_combined",
+            "type_text",
+            "move_forward",
+            "move_backward",
+            "move_left",
+            "move_right",
+            "turn_left",
+            "turn_right",
+            "run_forward",
+            "jump",
+            "enter_vehicle",
+            "attack"
+        ],
+        "skill_names_movement": [
+            "move_forward",
+            "move_backward",
+            "move_left",
+            "move_right",
+            "turn_left",
+            "turn_right",
+            "run_forward",
+            "jump",
+            "enter_vehicle",
+            "attack"
+        ],
+        "skill_names_map": [],
+        "skill_names_trade": [],
+        "skill_names_deny": [],
+        "skill_names_allow": []
+    },
+    "provider_configs": {
+        "information_gathering_provider": {
+            "template_path": "./res/gta_sa/prompts/templates/information_gathering.prompt"
+        },
+        "self_reflection_provider": {
+            "template_path": "./res/gta_sa/prompts/templates/self_reflection.prompt"
+        },
+        "task_inference_provider": {
+            "template_path": "./res/gta_sa/prompts/templates/task_inference.prompt",
+            "use_subtask": false
+        },
+        "action_planning_provider": {
+            "template_path": "./res/gta_sa/prompts/templates/action_planning.prompt"
+        }
+    },
+    "planner_params": {
+        "__check_list__": [
+            "action_planning",
+            "information_gathering",
+            "self_reflection",
+            "task_inference"
+        ],
+        "prompt_paths": {
+            "inputs": {
+                "action_planning": "./res/rdr2/prompts/inputs/action_planning.json",
+                "information_gathering": "./res/rdr2/prompts/inputs/information_gathering.json",
+                "success_detection": "./res/rdr2/prompts/inputs/success_detection.json",
+                "self_reflection": "./res/rdr2/prompts/inputs/self_reflection.json",
+                "task_inference": "./res/rdr2/prompts/inputs/task_inference.json",
+                "information_text_gathering": "./res/rdr2/prompts/inputs/information_text_gathering.json"
+            },
+            "templates": {
+                "action_planning": "./res/gta_sa/prompts/templates/action_planning.prompt",
+                "information_gathering": "./res/gta_sa/prompts/templates/information_gathering.prompt",
+                "success_detection": "./res/rdr2/prompts/templates/success_detection.prompt",
+                "self_reflection": "./res/gta_sa/prompts/templates/self_reflection.prompt",
+                "task_inference": "./res/gta_sa/prompts/templates/task_inference.prompt",
+                "information_text_gathering": "./res/rdr2/prompts/templates/information_text_gathering.prompt"
+            }
+        }
+    }
+}

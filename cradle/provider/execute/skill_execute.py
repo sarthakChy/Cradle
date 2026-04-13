@@ -39,6 +39,7 @@ class SkillExecuteProvider(BaseProvider):
         screen_classification = params.get("screen_classification", "")
         pre_action = params.get("pre_action", "")
 
+        self.gm.switch_to_game()
         self.gm.unpause_game()
 
         # @TODO: Rename GENERAL_GAME_INTERFACE

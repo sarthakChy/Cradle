@@ -1,0 +1,6 @@
+{
+    "base_url": "http://localhost:11434",
+    "comp_model": "gemma4:e4b",
+    "emb_model": "nomic-embed-text",
+    "timeout": 120
+}

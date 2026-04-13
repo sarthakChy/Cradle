@@ -108,7 +108,12 @@ class VideoRecordProvider(BaseProvider):
         self.video_splits_dir = os.path.join(os.path.dirname(self.video_path), 'video_splits')
         os.makedirs(self.video_splits_dir, exist_ok=True)
 
-        self.nlp = spacy.load("en_core_web_lg")
+        self.nlp = None
+        if config.ocr_enabled:
+            try:
+                self.nlp = spacy.load("en_core_web_lg")
+            except OSError:
+                logger.warn('spaCy model en_core_web_lg is not installed; falling back to exact-text OCR comparison.')
         self.pre_text = None
 
         self.video_ocr_extractor = VideoOCRExtractorProvider()
@@ -185,15 +190,15 @@ class VideoRecordProvider(BaseProvider):
                         if self.pre_text is None:
                             self.pre_text = cur_text
                         else:
-                            emb1 = self.nlp(self.pre_text)
-                            emb2 = self.nlp(cur_text)
-
-                            score = emb1.similarity(emb2)
-
-                            if score < config.ocr_similarity_threshold:
-                                config.ocr_different_previous_text = True
+                            if self.nlp is not None:
+                                emb1 = self.nlp(self.pre_text)
+                                emb2 = self.nlp(cur_text)
+                                score = emb1.similarity(emb2)
+                                is_different = score < config.ocr_similarity_threshold
                             else:
-                                config.ocr_different_previous_text = False
+                                is_different = cur_text != self.pre_text
+
+                            config.ocr_different_previous_text = is_different
                             self.pre_text = cur_text
 
                     # if config.ocr_enabled is false, the ocr is not enabled, so the pre_text should be None

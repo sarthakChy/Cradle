@@ -85,7 +85,7 @@ class TaskInferencePostprocessProvider(BaseProvider):
 
         processed_response = deepcopy(response)
 
-        subtask_description = processed_response["subtask"]
+        subtask_description = processed_response.get("subtask", "")
 
         processed_response.update({
             "subtask_description": subtask_description

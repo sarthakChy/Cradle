@@ -18,13 +18,11 @@ from cradle.utils.dict_utils import kget
 from cradle.environment.skill import Skill
 from cradle.environment.utils import serialize_skills, deserialize_skills
 from cradle.utils.check import is_valid_value
-from cradle.gameio.io_env import IOEnvironment
 from cradle.constants import *
 
 
 config = Config()
 logger = Logger()
-io_env = IOEnvironment()
 
 
 SKILLS = {}
