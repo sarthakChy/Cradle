@@ -31,6 +31,11 @@ def _ensure_game_active():
             pass
 
 
+def _use_pyautogui_backend():
+    backend = getattr(config, "input_backend", "pydirectinput")
+    return str(backend).lower() in {"pyautogui", "dxwnd", "wrapper"}
+
+
 def _normalize_key_name(key):
     aliases = {
         "return": "enter",
@@ -46,7 +51,9 @@ def _normalize_key_name(key):
 def _press_key(key):
     _ensure_game_active()
     key = _normalize_key_name(key)
-    if platform.system() == "Windows" and pydirectinput is not None:
+    if _use_pyautogui_backend() or pydirectinput is None:
+        pyautogui.press(key)
+    elif platform.system() == "Windows":
         pydirectinput.press(key)
     else:
         pyautogui.press(key)
@@ -55,7 +62,9 @@ def _press_key(key):
 def _key_down(key):
     _ensure_game_active()
     key = _normalize_key_name(key)
-    if platform.system() == "Windows" and pydirectinput is not None:
+    if _use_pyautogui_backend() or pydirectinput is None:
+        pyautogui.keyDown(key)
+    elif platform.system() == "Windows":
         pydirectinput.keyDown(key)
     else:
         pyautogui.keyDown(key)
@@ -64,7 +73,9 @@ def _key_down(key):
 def _key_up(key):
     _ensure_game_active()
     key = _normalize_key_name(key)
-    if platform.system() == "Windows" and pydirectinput is not None:
+    if _use_pyautogui_backend() or pydirectinput is None:
+        pyautogui.keyUp(key)
+    elif platform.system() == "Windows":
         pydirectinput.keyUp(key)
     else:
         pyautogui.keyUp(key)
@@ -208,7 +219,9 @@ def press_keys_combined(keys):
     if isinstance(keys, str):
         keys = [key.strip() for key in keys.split(",") if key.strip()]
 
-    if platform.system() == "Windows" and pydirectinput is not None:
+    if _use_pyautogui_backend() or pydirectinput is None:
+        pyautogui.hotkey(*keys)
+    elif platform.system() == "Windows":
         pydirectinput.hotkey(*keys)
     else:
         pyautogui.hotkey(*keys)

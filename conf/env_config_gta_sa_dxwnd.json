@@ -1,8 +1,8 @@
 {
     "env_name": "GTA: San Andreas",
-    "win_name_pattern": "GTA: San Andreas|Grand Theft Auto: San Andreas|GTA San Andreas",
+    "win_name_pattern": "GTA: San Andreas|Grand Theft Auto: San Andreas|GTA San Andreas|DXWnd",
     "skip_window_resize": true,
-    "input_backend": "pydirectinput",
+    "input_backend": "pyautogui",
     "sub_path": "gta_sa",
     "env_short_name": "gta_sa",
     "is_game": true,

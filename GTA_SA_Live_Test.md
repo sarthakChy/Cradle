@@ -13,7 +13,11 @@ Use the project virtual environment from the repository root.
 ```powershell
 .\.venv\Scripts\Activate.ps1
 python runner.py --llmProviderConfig conf\ollama_config.json --embedProviderConfig conf\ollama_config.json --envConfig conf\env_config_gta_sa.json
+
+python runner.py --llmProviderConfig conf\ollama_config.json --embedProviderConfig conf\ollama_config.json --envConfig conf\env_config_gta_sa_dxwnd.json
 ```
+
+
 
 ## Before you run
 
