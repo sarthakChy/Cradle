@@ -11,10 +11,10 @@ These scripts reuse Cradle's built-in window capture and record local gameplay s
 ## Recommended Command
 
 ```bash
-python tools/record_gta_sa_session.py --env-config conf/env_config_gta_sa.json
+python tools/record_gta_sa_session.py --env-config conf/env_config_gta_sa_dxwnd.json
 ```
 
-Use `conf/env_config_gta_sa_dxwnd.json` if you are playing through DXWnd.
+This is the recommended command for the current DxWnd setup.
 
 ## Output
 
@@ -24,6 +24,31 @@ Each run writes into a session directory under `runs/<YYYY-MM-DD>/time_start_<HH
 - `inputs.jsonl`
 - `frame_timeline.jsonl`
 - `manifest.json`
+
+## Mapping A Session
+
+After recording a session, run the mapper to extract frames and build the aligned dataset:
+
+```bash
+python tools/map_gta_sa_session.py
+```
+
+By default, the mapper finds the latest complete session under `runs/`.
+You can still override it with `--session-dir` if needed.
+It also samples observations at 200 ms intervals by default, so the output is a 5 Hz dataset instead of one row per rendered frame.
+
+The mapper expects these files inside a session directory:
+
+- `video.mp4`
+- `inputs.jsonl`
+- `frame_timeline.jsonl`
+- `manifest.json`
+
+It writes these outputs into `mapped_dataset/` by default:
+
+- `mapped_frames.jsonl`
+- `sync_report.txt`
+- `frames/frame_00000.jpg` and onward
 
 ## Stop Key
 

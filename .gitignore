@@ -170,3 +170,6 @@ test*/
 test*
 /tmp
 /papers
+/cradle/graphify-out/
+/graphify-out/
+/research/lumine_page_extract.txt

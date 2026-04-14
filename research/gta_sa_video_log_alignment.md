@@ -92,6 +92,11 @@ It also writes a `frame_timeline.jsonl` sidecar with one record per captured fra
 
 This removes the main ambiguity by giving you both anchors and an explicit per-frame timeline in one place.
 
+The mapper also builds two frame-level views:
+
+- `observation_state`: the aligned state snapshot for what the agent sees now.
+- `action_sequence`: the next control sequence to execute after that frame.
+
 ## Remaining Limitation
 
 The MP4 itself still has no per-frame wall-clock metadata. But because the sidecar records each frame with wall time and elapsed time, exact offline frame-to-event matching is now practical and repeatable.
@@ -101,6 +106,13 @@ The MP4 itself still has no per-frame wall-clock metadata. But because the sidec
 1. Use `frame_wall_time_utc` or `frame_elapsed_ms` from `frame_timeline.jsonl` for the video stream.
 2. Use `elapsed_ms` or `timestamp_ns` from `inputs.jsonl` for the input stream.
 3. Convert both to the same origin using `session_start_wall_time_utc` and the recorded `video_start_offset_ms`.
-4. Match each input record to the nearest frame or the frame interval containing that timestamp.
+4. Use `observation_state` for the current context and `action_sequence` for the training target.
+5. Match each input record to the nearest frame or the frame interval containing that timestamp.
 
 That is enough for a clean dataset build without relying on the MP4 container for timing.
+
+## Which One Is Better For Training?
+
+For imitation learning, the Lumine-like `action_sequence` is the better target because it predicts the next 200 ms of control, split into 33 ms subchunks, instead of only the nearest state snapshot.
+
+The nearest-snapshot `observation_state` is still useful as context, debugging, and sanity checking, but it is not the main training target.

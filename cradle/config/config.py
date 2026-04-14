@@ -105,7 +105,7 @@ class Config(metaclass=Singleton):
         self.parallel_request_gather_information = True
 
         # Video
-        self.video_fps = 30
+        self.video_fps = 60
 
         # Self-reflection image count
         self.max_images_in_self_reflection = 4

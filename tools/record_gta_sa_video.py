@@ -18,8 +18,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Record GTA SA gameplay using the repo's built-in window capture.")
     parser.add_argument(
         "--env-config",
-        default="conf/env_config_gta_sa.json",
-        help="Environment config used to resolve the game window region. Default: conf/env_config_gta_sa.json",
+        default="conf/env_config_gta_sa_dxwnd.json",
+        help="Environment config used to resolve the game window region. Default: conf/env_config_gta_sa_dxwnd.json",
     )
     parser.add_argument(
         "--output",

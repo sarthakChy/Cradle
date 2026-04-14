@@ -113,6 +113,12 @@ Due to the vast differences between each game and software, we have provided the
 
 For the GTA SA recording workflow, see [research/gta_sa_lumine_logger_plan.md](research/gta_sa_lumine_logger_plan.md).
 
+Use this command for the current DxWnd setup:
+
+```bash
+python tools/record_gta_sa_session.py --env-config conf/env_config_gta_sa_dxwnd.json
+```
+
 <div align="center">
 <img src="./docs/images/games_wheel.png" height="365" /> <img src="./docs/images/applications_wheel.png" height="365" />
 </div>
