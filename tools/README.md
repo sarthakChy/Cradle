@@ -50,6 +50,32 @@ It writes these outputs into `mapped_dataset/` by default:
 - `sync_report.txt`
 - `frames/frame_00000.jpg` and onward
 
+To convert a mapped session into Gemma-ready JSONL for walking-session fine-tuning, use:
+
+```bash
+python tools/convert_mapped_frames_to_gemma_jsonl.py --input <session-dir>/mapped_dataset/mapped_frames.jsonl
+```
+
+The converter now emits one record per frame in this shape:
+
+```json
+{
+	"messages": [
+		{
+			"role": "user",
+			"content": "<image>\nYou are an AI agent playing GTA San Andreas. Predict the next 6 actions."
+		},
+		{
+			"role": "assistant",
+			"content": "0 0 0 ; W ; W ; W ; W ; W ; W"
+		}
+	],
+	"images": ["D:\\sarthak\\Cradle\\runs\\...\\mapped_dataset\\frames\\frame_00637.jpg"]
+}
+```
+
+Idle frames stay in the dataset too; their assistant content is left blank instead of writing a noop token.
+
 ## Stop Key
 
 The input recorder stops the full session when you press `F10`.

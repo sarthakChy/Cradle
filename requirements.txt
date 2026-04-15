@@ -27,3 +27,4 @@ pywin32; sys_platform == "win32"
 dataclass_wizard==0.22.3
 dill==0.3.8
 anthropic
+unsloth
